@@ -1,3 +1,3 @@
-# Mailgun-Utils
+# Utilidades para Usar Mailgun en Agoo.com.co (Mailgun-Utils)
 
-Mailgun utilities
+Este repositorio contiene una compilación de snippet, casos de uso y codigo prefabricado.
