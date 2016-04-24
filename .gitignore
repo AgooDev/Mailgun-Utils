@@ -1,0 +1,6 @@
+# Phpstorm Config
+.idea/
+
+# Composer dependencies
+vendor/
+
