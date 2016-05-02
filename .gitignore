@@ -4,3 +4,5 @@
 # Composer dependencies
 vendor/
 
+# Private templates
+assets/templates/
