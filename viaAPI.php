@@ -7,7 +7,6 @@ use Mailgun\Mailgun;
 # Email Variables
 # postData
 $from = '';
-$text = '';
 $to = '';
 $cc = '';
 $bcc = '';
