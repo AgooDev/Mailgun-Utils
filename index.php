@@ -1,13 +1,11 @@
 <?php
 require_once 'config/config.php';
+require_once 'config/functions.php';
+//require_once 'config/database.php';
 require 'vendor/autoload.php';
 use Mailgun\Mailgun;
-use Mailing\database\Mysql as MySQL;
-use Mailing\Funtions\HTML as TemplateFunctions;
 
 $app        = new \Slim\App();
-$mysql      = new MySQL();
-$templates  = new TemplateFunctions();
 
 $app->get('/', function ($request, $response, $args) {
     return $response->withStatus(200)->write('Service Available');
