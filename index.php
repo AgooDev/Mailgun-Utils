@@ -19,28 +19,34 @@ $app->get('/welcome', function ($request, $response, $args) {
     return $response;
 });
 
+
 $app->post('/welcome', function ($request, $response){
+
     # Get body data
     $data = $request->getParsedBody();
     # Instantiate the client
-    $messageClient = new Mailgun(MAILGUN_PRIVATE_APIKEY);
+    //$messageClient = new Mailgun(MAILGUN_PRIVATE_APIKEY);
+
     # Email Variables
     # postData
-    $from       = filter_var($data['from'], FILTER_SANITIZE_EMAIL);
-    $to         = filter_var($data['from'], FILTER_SANITIZE_EMAIL);
-    $subject    = filter_var($data['from'], FILTER_SANITIZE_STRING);
-    $name       = filter_var($data['from'], FILTER_SANITIZE_STRING);
-    $password   = filter_var($data['from'], FILTER_SANITIZE_STRING);
-    
+    $from       = filter_var($data['from'],     FILTER_SANITIZE_EMAIL);
+    $to         = filter_var($data['to'],       FILTER_SANITIZE_EMAIL);
+    $subject    = filter_var($data['subject'],  FILTER_SANITIZE_STRING);
+    $name       = filter_var($data['name'],     FILTER_SANITIZE_STRING);
+    $password   = filter_var($data['password'], FILTER_SANITIZE_STRING);
+
     # Create html file to send
-    global $templates;
+    $templates  = new HTML();
     $data = array(
         'name'      => $name,
-        'username'  => $to,
+        'email'     => $to,
         'password'  => $password,
     );
     $templateRoute = $templates->CreateTemplate("bienvenida", $data);
-    $html       = file_get_contents($templateRoute);
+    # Get the file in memory to attached
+    $html = file_get_contents($templateRoute);
+    echo $from,$to,$subject,$name,$password, $templateRoute;
+    die();
 
     # postFiles
     $attachment = array('/path/to/file.txt','/the/second/file/to/attach.pdf');
