@@ -1,5 +1,4 @@
 <?php
-namespace Mailing\database;
 require_once "config.php";
 require '../vendor/autoload.php';
 
