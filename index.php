@@ -79,12 +79,6 @@ $app->post('/welcome', function ($request, $response){
 // ================================================================
 // TICKET
 $app->get('/ticket', function ($request, $response, $args) {
-    $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-    $txt = "John Doe\n";
-    fwrite($myfile, $txt);
-    $txt = "Jane Doe\n";
-    fwrite($myfile, $txt);
-    fclose($myfile);
     $response->getBody()->write("Ticket");
     return $response;
 });
