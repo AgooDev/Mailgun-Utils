@@ -17,7 +17,7 @@ class Database{
             die("Connection Fail ".$this->connection->connect_error);
         }
         else{
-            echo "Connection is ok ";
+            //echo "Connection is ok ";
         }
     }// End of constructor
 
@@ -43,7 +43,7 @@ class Database{
 
         //Perform Insert operation
         if($this->connection->query("INSERT INTO $tblname ($keysString) VALUES ($StValues)") === TRUE){
-            echo "New record has been inserted successfully!";
+            //echo "New record has been inserted successfully!";
         }else{
             echo "Error ".$this->connection->error;
         }
@@ -68,16 +68,15 @@ class Database{
         //Perform Delete operation
         if($this->connection->query("DELETE FROM $tblname WHERE $Stexp") === TRUE){
             if(mysqli_affected_rows($this->connection)){
-                echo "Record has been deleted successfully<br>";
+                //echo "Record has been deleted successfully<br>";
             }
             else{
-                echo "The Record you want to delete is no loger exists<br>";
+                //echo "The Record you want to delete is no loger exists<br>";
             }
         }
         else{
             echo "Error to delete".$this->connection->error;
         }
-        echo "<br>";
     }
 
 
@@ -122,7 +121,7 @@ class Database{
         if($this->connection){
             // Close the connection
             $this->connection->close();
-            echo "Connection is release";
+            //echo "Connection is release";
         }
     }
 

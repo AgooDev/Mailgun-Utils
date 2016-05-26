@@ -18,7 +18,6 @@ $app->get('/welcome', function ($request, $response, $args) {
     return $response;
 });
 
-
 $app->post('/welcome', function ($request, $response){
 
     # Get body data
@@ -45,9 +44,6 @@ $app->post('/welcome', function ($request, $response){
     $templateRoute = $templates->CreateTemplate("bienvenida", $data);
     # Get the file in memory to attached
     $html = file_get_contents($templateRoute);
-
-    # postFiles
-    //$attachment = array('/path/to/file.txt');
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
