@@ -56,15 +56,19 @@ $app->post('/welcome', function ($request, $response){
     # Results
     $httpResponseCode = $result->http_response_code;
     $httpResponseBody = $result->http_response_body;
-        
+
+    $mailgunId = $httpResponseBody->id;
+    $mailgunMessage = $httpResponseBody->message;
+
+    $now = date("Y-m-d H:i:s");
     $data = array(
         "email"     => $to,
         "nombre"    => $name,
         "html"      => $templateRoute,
-        "estado"    => $httpResponseBody->items[0]->hap,
+        "serial"    => $mailgunId,
         "codigo"    => $httpResponseCode,
-        "enviado"   => $httpResponseBody->items[0]->created_at,
-        "mensaje"   => $httpResponseBody->items[0]->message,
+        "enviado"   => $now,
+        "mensaje"   => $mailgunMessage
     );
     # Create a MySQL connecton
     $db = new Database();
@@ -72,7 +76,9 @@ $app->post('/welcome', function ($request, $response){
     $data = array(
         "mailingId"     => $id,
         "mailgunCode"   => $httpResponseCode,
-        "mailgunHap"    => $httpResponseBody->items[0]->hap
+        "mailgunId"     => $mailgunId,
+        "sent_at"       => $now,
+        "message"       => $mailgunMessage
     );
     unset($db);
     $response->withJson($data);
