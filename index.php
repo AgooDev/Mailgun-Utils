@@ -45,11 +45,9 @@ $app->post('/welcome', function ($request, $response){
     $templateRoute = $templates->CreateTemplate("bienvenida", $data);
     # Get the file in memory to attached
     $html = file_get_contents($templateRoute);
-    echo $from,$to,$subject,$name,$password, $templateRoute;
-    die();
 
     # postFiles
-    $attachment = array('/path/to/file.txt','/the/second/file/to/attach.pdf');
+    //$attachment = array('/path/to/file.txt');
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
@@ -57,13 +55,14 @@ $app->post('/welcome', function ($request, $response){
         'to'                    =>  $to,
         'subject'               =>  $subject,
         'html'                  =>  $html
-    ), array(
-        'attachment'    =>  $attachment
     ));
 
     # Results
     $httpResponseCode = $result->http_response_code;
     $httpResponseBody = $result->http_response_body;
+
+    echo $from,$to,$subject,$name,$password, $templateRoute, " codigo: ", $httpResponseCode, ", mensaje: ", $httpResponseBody;
+    die();
 
     # Create a MySQL connecton
     global $mysql;
