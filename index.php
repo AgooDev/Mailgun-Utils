@@ -1,10 +1,12 @@
 <?php
 require_once 'config/config.php';
 require_once 'config/functions.php';
-//require_once 'config/database.php';
+require_once 'config/database.php';
 require 'vendor/autoload.php';
 
 $app = new \Slim\App();
+# Create a MySQL connecton
+$mysqlConn = new MysqlDB();
 
 $app->get('/', function ($request, $response, $args) {
     return $response->withStatus(200)->write('Service Available');
@@ -61,12 +63,8 @@ $app->post('/welcome', function ($request, $response){
     $httpResponseCode = $result->http_response_code;
     $httpResponseBody = $result->http_response_body;
 
-    echo $from,$to,$subject,$name,$password, $templateRoute, " codigo: ", $httpResponseCode, ", mensaje: ", $httpResponseBody;
-    die();
-
-    # Create a MySQL connecton
-    global $mysql;
-    $db= $mysql->connect();
+    global $mysqlConn;
+    $db = $mysqlConn->connect();
     $data = array(
         "email"     => $to,
         "nombre"    => $name,
@@ -76,7 +74,14 @@ $app->post('/welcome', function ($request, $response){
         "enviado"   => $httpResponseBody->items[0]->created_at,
         "mensaje"   => $httpResponseBody->items[0]->message,
     );
-
+    $id = $db->insert ('se_mailing', $data);
+    $data = array(
+        "mailingId"     => $id,
+        "mailgunCode"    => $httpResponseCode,
+        "mailgunHap"      => $httpResponseBody->items[0]->hap
+    );
+    $mysqlConn->disconnect($db);
+    $response->withJson($data);
 });
 
 // ================================================================
