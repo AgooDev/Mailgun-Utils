@@ -1,8 +1,8 @@
 <?php
 require_once "config.php";
-require '../vendor/autoload.php';
+require SITE_ROOT.'/vendor/autoload.php';
 
-class Mysql
+class MysqlDB
 {
     function connect()
     {
