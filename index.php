@@ -53,7 +53,7 @@ $app->post('/welcome', function ($request, $response){
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
-        'from'                  =>  $from,
+        'from'                  =>  "Agoo.com.co <".$from.">",
         'to'                    =>  $to,
         'subject'               =>  $subject,
         'html'                  =>  $html
@@ -122,7 +122,7 @@ $app->post('/ticket', function ($request, $response){
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
-        'from'                  =>  $from,
+        'from'                  =>  "Agoo.com.co <".$from.">",
         'to'                    =>  $to,
         'subject'               =>  $subject,
         'html'                  =>  $html
@@ -174,7 +174,7 @@ $app->post('/free', function ($request, $response){
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
-        'from'                  =>  $from,
+        'from'                  =>  "Agoo.com.co <".$from.">",
         'to'                    =>  $to,
         'subject'               =>  $subject,
         'html'                  =>  $html
@@ -222,7 +222,7 @@ $app->post('/recovery', function ($request, $response){
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
-        'from'                  =>  $from,
+        'from'                  =>  "Agoo.com.co <".$from.">",
         'to'                    =>  $to,
         'subject'               =>  $subject,
         'html'                  =>  $html
