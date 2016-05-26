@@ -5,8 +5,6 @@ require_once 'config/database.php';
 require 'vendor/autoload.php';
 
 $app = new \Slim\App();
-# Create a MySQL connecton
-$mysqlConn = new MysqlDB();
 
 $app->get('/', function ($request, $response, $args) {
     return $response->withStatus(200)->write('Service Available');
@@ -62,9 +60,7 @@ $app->post('/welcome', function ($request, $response){
     # Results
     $httpResponseCode = $result->http_response_code;
     $httpResponseBody = $result->http_response_body;
-
-    global $mysqlConn;
-    $db = $mysqlConn->connect();
+        
     $data = array(
         "email"     => $to,
         "nombre"    => $name,
@@ -74,13 +70,15 @@ $app->post('/welcome', function ($request, $response){
         "enviado"   => $httpResponseBody->items[0]->created_at,
         "mensaje"   => $httpResponseBody->items[0]->message,
     );
-    $id = $db->insert ('se_mailing', $data);
+    # Create a MySQL connecton
+    $db = new Database();
+    $id = $db->insert('se_mailing', $data);
     $data = array(
         "mailingId"     => $id,
-        "mailgunCode"    => $httpResponseCode,
-        "mailgunHap"      => $httpResponseBody->items[0]->hap
+        "mailgunCode"   => $httpResponseCode,
+        "mailgunHap"    => $httpResponseBody->items[0]->hap
     );
-    $mysqlConn->disconnect($db);
+    unset($db);
     $response->withJson($data);
 });
 
