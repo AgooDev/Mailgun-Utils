@@ -24,7 +24,8 @@ $app->post('/welcome', function ($request, $response){
     # Get body data
     $data = $request->getParsedBody();
     # Instantiate the client
-    //$messageClient = new Mailgun(MAILGUN_PRIVATE_APIKEY);
+    $client = new \Http\Adapter\Guzzle6\Client();
+    $messageClient = new \Mailgun\Mailgun(MAILGUN_PRIVATE_APIKEY, $client);
 
     # Email Variables
     # postData
