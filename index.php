@@ -3,9 +3,8 @@ require_once 'config/config.php';
 require_once 'config/functions.php';
 //require_once 'config/database.php';
 require 'vendor/autoload.php';
-use Mailgun\Mailgun;
 
-$app        = new \Slim\App();
+$app = new \Slim\App();
 
 $app->get('/', function ($request, $response, $args) {
     return $response->withStatus(200)->write('Service Available');
