@@ -3,17 +3,27 @@
 Este repositorio contiene una compilación de snippet, casos de uso y codigo prefabricado.
 
 /welcome
-
 ```
 {
-    "from":"noreplay@domain.com",
     "to":"user@email.com",
-    "subject":"welcome",
     "name":"user name",
     "password":"1234"
 }
 ```
 
 /ticket
+```
+{
+    "to":"user@email.com",
+    "name":"user name",
+    "pdf":"/path/to/pdf/file"
+}
+```
 
 /recovery
+```
+{
+    "to":"user@email.com",
+    "url":"/my/special/code/to/reset"
+}
+```
