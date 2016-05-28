@@ -133,8 +133,31 @@ $app->post('/ticket', function ($request, $response){
     $httpResponseCode = $result->http_response_code;
     $httpResponseBody = $result->http_response_body;
 
-    echo $from,$to,$subject,$name,$password, $templateRoute, " codigo: ", $httpResponseCode, ", mensaje: ", $httpResponseBody;
-    die();
+    $mailgunId = $httpResponseBody->id;
+    $mailgunMessage = $httpResponseBody->message;
+
+    $now = date("Y-m-d H:i:s");
+    $data = array(
+        "email"     => $to,
+        "nombre"    => $name,
+        "html"      => $templateRoute,
+        "serial"    => $mailgunId,
+        "codigo"    => $httpResponseCode,
+        "enviado"   => $now,
+        "mensaje"   => $mailgunMessage
+    );
+    # Create a MySQL connecton
+    $db = new Database();
+    $id = $db->insert('se_mailing', $data);
+    $data = array(
+        "mailingId"     => $id,
+        "mailgunCode"   => $httpResponseCode,
+        "mailgunId"     => $mailgunId,
+        "sent_at"       => $now,
+        "message"       => $mailgunMessage
+    );
+    unset($db);
+    $response->withJson($data);
 });
 
 // ================================================================
