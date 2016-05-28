@@ -171,23 +171,21 @@ $app->post('/recovery', function ($request, $response){
     # Get body data
     $data = $request->getParsedBody();
     # Instantiate the client
-    $client = new \Http\Adapter\Guzzle6\Client();
-    $messageClient = new \Mailgun\Mailgun(MAILGUN_PRIVATE_APIKEY, $client);
+    $client         = new \Http\Adapter\Guzzle6\Client();
+    $messageClient  = new \Mailgun\Mailgun(MAILGUN_PRIVATE_APIKEY, $client);
 
     # Email Variables
     # postData
-    $from       = filter_var($data['from'],     FILTER_SANITIZE_EMAIL);
+    $from       = "Agoo.com.co <info@agoo.com.co>";
     $to         = filter_var($data['to'],       FILTER_SANITIZE_EMAIL);
-    $subject    = filter_var($data['subject'],  FILTER_SANITIZE_STRING);
-    $name       = filter_var($data['name'],     FILTER_SANITIZE_STRING);
-    $password   = filter_var($data['password'], FILTER_SANITIZE_STRING);
+    $subject    = "Recuperar Contraseña Agoo.com.co";
+    $url        = filter_var($data['url'], FILTER_SANITIZE_STRING);
 
     # Create html file to send
     $templates  = new HTML();
     $data = array(
-        'name'      => $name,
         'email'     => $to,
-        'password'  => $password,
+        'url'       => $url,
     );
     $templateRoute = $templates->CreateTemplate("recuperar", $data);
     # Get the file in memory to attached
@@ -205,8 +203,31 @@ $app->post('/recovery', function ($request, $response){
     $httpResponseCode = $result->http_response_code;
     $httpResponseBody = $result->http_response_body;
 
-    echo $from,$to,$subject,$name,$password, $templateRoute, " codigo: ", $httpResponseCode, ", mensaje: ", $httpResponseBody;
-    die();
+    $mailgunId = $httpResponseBody->id;
+    $mailgunMessage = $httpResponseBody->message;
+
+    $now = date("Y-m-d H:i:s");
+    $data = array(
+        "email"     => $to,
+        "nombre"    => $to,
+        "html"      => $templateRoute,
+        "serial"    => $mailgunId,
+        "codigo"    => $httpResponseCode,
+        "enviado"   => $now,
+        "mensaje"   => $mailgunMessage
+    );
+    # Create a MySQL connecton
+    $db = new Database();
+    $id = $db->insert('se_mailing', $data);
+    $data = array(
+        "mailingId"     => $id,
+        "mailgunCode"   => $httpResponseCode,
+        "mailgunId"     => $mailgunId,
+        "sent_at"       => $now,
+        "message"       => $mailgunMessage
+    );
+    unset($db);
+    $response->withJson($data);
 });
 // ================================================================
 
