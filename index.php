@@ -99,25 +99,25 @@ $app->post('/ticket', function ($request, $response){
 
     # Email Variables
     # postData
-    $from       = filter_var($data['from'],     FILTER_SANITIZE_EMAIL);
+    $from       = "Agoo.com.co <info@agoo.com.co>";
     $to         = filter_var($data['to'],       FILTER_SANITIZE_EMAIL);
-    $subject    = filter_var($data['subject'],  FILTER_SANITIZE_STRING);
+    $subject    = "Gracias por comprar en Agoo.com.co";
     $name       = filter_var($data['name'],     FILTER_SANITIZE_STRING);
-    $password   = filter_var($data['password'], FILTER_SANITIZE_STRING);
+    $pdf        = filter_var($data['pdf'], FILTER_SANITIZE_STRING);
 
     # Create html file to send
     $templates  = new HTML();
     $data = array(
         'name'      => $name,
         'email'     => $to,
-        'password'  => $password,
+        'pdf'       => $pdf,
     );
     $templateRoute = $templates->CreateTemplate("compra", $data);
     # Get the file in memory to attached
     $html = file_get_contents($templateRoute);
 
     # postFiles
-    $attachment = array('/path/to/file.txt');
+    $attachment = $pdf;
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
