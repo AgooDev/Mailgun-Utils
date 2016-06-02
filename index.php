@@ -117,7 +117,7 @@ $app->post('/ticket', function ($request, $response){
     $html = file_get_contents($templateRoute);
 
     # postFiles
-    $attachment = $pdf;
+    $attachment = TICKET_ROOT . $pdf;
 
     # Now, compose the mail and call the client to send it
     $result = $messageClient->sendMessage(MAILGUN_DOMAIN,array(
