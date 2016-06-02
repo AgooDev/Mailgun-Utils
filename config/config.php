@@ -7,4 +7,4 @@ define('DB_NAME','dbName');
 define('DB_USER','dbUser');
 define('DB_PASSWORD','dbPass');
 define('SITE_ROOT', '/var/www/html/mailgun');
-define('HISTORY_PATH','assets/history/');
+define('HISTORY_PATH','assets/history/');define('TICKET_ROOT', '/var/www/tickets');
